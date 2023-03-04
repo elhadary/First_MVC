@@ -1,9 +1,15 @@
 {
-    "name": "fares/mv",
+    "name": "fares/app",
     "autoload": {
         "psr-4": {
             "app\\": "./"
         }
     },
+    "authors": [
+        {
+            "name": "elhadary",
+            "email": "fares30977003@commerce.tanta.edu.eg"
+        }
+    ],
     "require": {}
 }
