@@ -34,7 +34,8 @@ class Router
             $this->response->setErrorCode(404);
             return str_replace("{{content}}",$content,$layout);
         }
-        return call_user_func($callback);
+
+        return call_user_func_array([new $callback[0],$callback[1]],[]);
     }
 
     public function render($view,$params,$errors)

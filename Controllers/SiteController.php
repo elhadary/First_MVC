@@ -7,7 +7,7 @@ use app\Core\Request;
 
 class SiteController extends Controller
 {
-    public static function home()
+    public function home()
     {
         $params = [
             'title' => 'homepage'
@@ -15,7 +15,7 @@ class SiteController extends Controller
         (new SiteController)->render('home',$params);
     }
     // If method doesn't Exist
-    public static function __callStatic(string $method, array $parameters){
+    public function __call(string $method, array $parameters){
         return self::home();
     }
 

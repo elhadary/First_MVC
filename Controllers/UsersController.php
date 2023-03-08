@@ -4,22 +4,26 @@ namespace app\Controllers;
 
 use app\Core\Controller;
 use app\Core\Request;
+use app\Core\Session;
 use app\models\User;
 
 class UsersController extends Controller
 {
-    public static function getLogin()
+    public function getLogin()
     {
+        $this->isUser();
+        var_dump($_SESSION);
         (new SiteController)->render('login');
     }
 
-    public static function postLogin()
+    public function postLogin()
     {
+        $this->isUser();
         $errors = [];
         $data = (new Request)->getPostData();
         if($data['username'] == '')
         {
-            $errors[] = 'Please enter an email';
+            $errors[] = 'Please enter a username';
         }
         if ($data['password'] == '')
         {
@@ -31,8 +35,9 @@ class UsersController extends Controller
         {
            if($user[0]['password'] == $data['password'])
            {
-               $errors[] = 'correct';
-               (new SiteController)->render('login',['error'=> '<div class="alert alert-success" role="alert">Correct</div>']);
+               $session = new Session();
+               $session->login($data['username']);
+               header("LOCATION: /dashboard");
            }else
            {
                $errors[] = 'password is not correct';
@@ -47,13 +52,15 @@ class UsersController extends Controller
 
     }
 
-    public static function getRegister()
+    public function getRegister()
     {
+        $this->isUser();
         (new SiteController)->render('register');
     }
 
-    public static function postRegister()
+    public function postRegister()
     {
+        $this->isUser();
         $errors = [];
         $data = (new Request)->getPostData();
         if($data['username'] == '')
@@ -88,8 +95,20 @@ class UsersController extends Controller
         (new SiteController)->render('register',[],$errors);
     }
 
+    public function isUser()
+    {
+        if(isset($_SESSION['username']))
+        {
+            header("LOCATION: /dashboard");
+            die();
+        }else
+        {
+            return false;
+        }
+    }
+
     // If method doesn't Exist
-    public static function __callStatic(string $method, array $parameters){
+    public function __call(string $method, array $parameters){
         return self::getLogin();
     }
 
