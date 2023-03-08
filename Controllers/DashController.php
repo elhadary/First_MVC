@@ -10,10 +10,16 @@ class DashController extends Controller
 {
 
     public function dashboard(){
-        if(isset($_SESSION['username'])){
-            (new SiteController)->render('dashboard');
-        }else{
-            header("Location: /login");
+        $this->isUser();
+        return $this->render('dashboard');
+    }
+
+
+    public function isUser()
+    {
+        if (!isset($_SESSION['username'])) {
+            header('LOCATION: /login');
+            die();
         }
     }
 

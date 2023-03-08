@@ -19,7 +19,7 @@ class Controller
 
     public function render($view,$params = [],$errors = [])
     {
-
-       echo $this->app->router->render($view,$params,$errors);
+        $GLOBALS['params'] = $params;
+        echo $this->app->router->render($view,$errors);
     }
 }

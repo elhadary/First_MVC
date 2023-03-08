@@ -38,18 +38,17 @@ class Router
         return call_user_func_array([new $callback[0],$callback[1]],[]);
     }
 
-    public function render($view,$params,$errors)
+    public function render($view,$errors)
     {
-        extract($params);
         $layout = $this->renderLayout();
         $content = $this->renderView($view);
         $content =  str_replace("{{content}}",$content,$layout);
-        return $this->renderVariables($content,$params,$errors);
+        return $this->renderVariables($content,$errors);
     }
     public function renderLayout()
     {
         ob_start();
-        include dirname(__DIR__).'/Views/layouts/main.php';
+        include dirname(__DIR__)."/Views/layouts/".$GLOBALS['layout'].".php";
         return ob_get_clean();
     }
 
@@ -72,10 +71,9 @@ class Router
         return str_replace("{{errors}}",$string,$content);
     }
     // Find all {{Variable}} and render it then delete unfounded variables
-    public function renderVariables($content,$params,$errors)
+    public function renderVariables($content,$errors)
     {
         $content = $this->renderErrors($content,$errors);
-        extract($params);
         while (str_contains($content,"{{"))
         {
             $firstPos = strpos($content,"{{");
@@ -87,6 +85,7 @@ class Router
             }else{
                 $content = str_replace("{{".$var."}}",'',$content);
             }
-        }return $content;
+        }
+        return $content;
     }
 }

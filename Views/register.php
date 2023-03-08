@@ -1,6 +1,6 @@
 <div class="mx-auto col-10 col-md-8 col-lg-6">
     {{errors}}
-    {{error}}
+    <?= isset($GLOBALS['params']['success']) ? $GLOBALS['params']['success'] : null ?>
     <form action="/register" method="post">
         <div class="form-group">
             <label for="exampleInputEmail1">Username (No special characters allowed or spaces allowed)</label>

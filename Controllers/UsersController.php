@@ -13,7 +13,7 @@ class UsersController extends Controller
     {
         $this->isUser();
         var_dump($_SESSION);
-        (new SiteController)->render('login');
+        $this->render('login');
     }
 
     public function postLogin()
@@ -36,17 +36,17 @@ class UsersController extends Controller
            if($user[0]['password'] == $data['password'])
            {
                $session = new Session();
-               $session->login($data['username']);
+               $session->login($data['username'],$user[0]['id']);
                header("LOCATION: /dashboard");
            }else
            {
                $errors[] = 'password is not correct';
-               (new SiteController)->render('login',[],$errors);
+               $this->render('login',[],$errors);
            }
         }else
         {
             $errors[] = 'Username is wrong';
-            (new SiteController)->render('login',[],$errors);
+            $this->render('login',[],$errors);
         }
 
 
@@ -55,7 +55,7 @@ class UsersController extends Controller
     public function getRegister()
     {
         $this->isUser();
-        (new SiteController)->render('register');
+        $this->render('register');
     }
 
     public function postRegister()
@@ -63,36 +63,35 @@ class UsersController extends Controller
         $this->isUser();
         $errors = [];
         $data = (new Request)->getPostData();
-        if($data['username'] == '')
-        {
-            $errors[] = 'Please enter a username';
-        }
-        if ($data['password'] == '')
-        {
-            $errors[] = 'Please enter a password';
-        }
+        $user = new User();
+        $exist = $user->select()->where('username', '=',$data['username']);
+        $exist = $exist->fetchAll();
+
         if(!preg_match("/^[a-z\d_]{5,40}$/i",$data['username']) OR str_contains($data['password'],' ' OR str_contains($data['username'],' ')))
         {
-            (new SiteController)->render('register',['error' => '<div class="alert alert-danger" role="alert">Please Enter a valid username and password</div>']);
-            die();
+            $errors[] = 'Please Enter a valid username and password';
+
+        }
+        if(isset($exist[0]['username']) && $exist[0]['username'] == $data['username'])
+        {
+            $errors[] = 'Username already exists';
         }
         if(count($errors) === 0)
         {
-            $user = new User();
             $user->insert(['username' => $data['username'],'password' => $data['password']]);
             $user->execute();
             if ($user->error == '')
             {
                 $success = '<div class="alert alert-success" role="alert">User Registered Successfully</div>';
-                (new SiteController)->render('register',['error' => $success]);
+                $this->render('register',['success' => $success]);
                 die();
             }else
             {
-                (new SiteController)->render('register',['error' => $user->error]);
+                $this->render('register',[],$errors);
                 die();
             }
         }
-        (new SiteController)->render('register',[],$errors);
+        $this->render('register',[],$errors);
     }
 
     public function isUser()

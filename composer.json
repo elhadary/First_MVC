@@ -12,6 +12,8 @@
         }
     ],
     "require": {
-      "ext-pdo": "*"
+        "ext-pdo": "*",
+        "vlucas/phpdotenv": "^5.5",
+        "symfony/var-dumper": "^6.2"
     }
 }
