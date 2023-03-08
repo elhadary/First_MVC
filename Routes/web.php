@@ -9,6 +9,7 @@ $app = new Application();
 
 $app->router->get('/',[SiteController::class,'home']);
 $app->router->get('/contact',[SiteController::class,'contact']);
+$app->router->get('/post',[SiteController::class,'post']);
 
 $app->router->get('/login',[UsersController::class,'getLogin']);
 $app->router->post('/login',[UsersController::class,'postLogin']);

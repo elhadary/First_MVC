@@ -12,7 +12,6 @@ class UsersController extends Controller
     public function getLogin()
     {
         $this->isUser();
-        var_dump($_SESSION);
         $this->render('login');
     }
 

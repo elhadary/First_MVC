@@ -30,10 +30,12 @@ class PostController extends Controller
         }
         // Adding post
         $post = new Post();
-        $title = $_POST['title'];
-        $text = $_POST['text'];
+        $title = strip_tags($_POST['title']);
+        $text = str_replace("'","\'",strip_tags($_POST['text']));
         $post->insert(['title' => $title, 'text' => $text,'writer' => $_SESSION['id']]);
+
         $post->execute();
+
         if ($post->error == '')
         {
             $success = '<div class="alert alert-success" role="alert">Post added Successfully</div>';
@@ -81,9 +83,11 @@ class PostController extends Controller
                 die();
             }
         }
-
+        ;
         $post = new Post();
-        $update = $post->update(['title' => $_POST['title'],'text' => $_POST['text'],'last_edited' => $_SESSION['id']])->where('id','=',$_POST['id'])->execute();
+        $title = strip_tags($_POST['title']);
+        $text = str_replace("'","\'",strip_tags($_POST['text']));
+        $update = $post->update(['title' => $title,'text' => $text,'last_edited' => $_SESSION['id']])->where('id','=',$_POST['id'])->execute();
         if($update) {
             header('LOCATION: /dashboard/edit?id='.$_POST["id"].'&success=1');
         }

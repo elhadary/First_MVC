@@ -4,6 +4,7 @@ namespace app\Controllers;
 
 use app\Core\Controller;
 use app\Core\Session;
+use app\Models\Post;
 
 
 class DashController extends Controller
@@ -11,7 +12,9 @@ class DashController extends Controller
 
     public function dashboard(){
         $this->isUser();
-        return $this->render('dashboard');
+        $posts = new Post();
+        $posts = $posts->select()->fetchAll();
+        $this->render('dashboard',$posts);
     }
 
 

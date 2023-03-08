@@ -25,9 +25,6 @@
                 <a class="nav-link" href="/register">register<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/logout">logout</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="/dsadsa">404</a>
             </li>
         </ul>
