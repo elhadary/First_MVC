@@ -3,7 +3,6 @@
 namespace app\Controllers;
 
 use app\Core\Controller;
-use app\Core\Request;
 
 class SiteController extends Controller
 {
@@ -12,7 +11,8 @@ class SiteController extends Controller
         $params = [
             'title' => 'homepage'
         ];
-        (new SiteController)->render('home',$params);
+        isset($_SESSION['username']) ? (new SiteController)->render('dashboard',$params) :(new SiteController)->render('home',$params);
+
     }
     // If method doesn't Exist
     public function __call(string $method, array $parameters){

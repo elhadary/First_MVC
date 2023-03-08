@@ -20,6 +20,11 @@ $app->router->get('/dashboard',[DashController::class,'dashboard']);
 
 $app->router->get('/dashboard/add',[PostController::class,'getPost']);
 $app->router->post('/dashboard/add',[PostController::class,'postPost']);
+$app->router->get('/dashboard/edit',[PostController::class,'edit']);
+$app->router->post('/dashboard/edit',[PostController::class,'postEdit']);
+$app->router->get('/dashboard/delete',[PostController::class,'delete']);
+
+
 $app->router->get('/dashboard/posts',[PostController::class,'posts']);
 
 

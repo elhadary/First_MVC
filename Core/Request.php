@@ -27,5 +27,9 @@ class Request
     {
         return $_POST;
     }
+    public function getUrlData()
+    {
+        return $_GET;
+    }
 
 }
